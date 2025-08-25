@@ -1,0 +1,28 @@
+﻿@model ExpensesManager.Models.Category
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<h2><i class="bi bi-pencil-square"></i> Edit Category</h2>
+<hr />
+
+<div class="col-md-6">
+    <form asp-action="Edit" method="post" class="shadow p-4 rounded bg-light">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-warning">
+            <i class="bi bi-save"></i> Update
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left-circle"></i> Back to List
+        </a>
+    </form>
+</div>

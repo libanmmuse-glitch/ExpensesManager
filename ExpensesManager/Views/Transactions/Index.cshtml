@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ExpensesManager.Models.Transaction>
+@using ExpensesManager.Models
+
+@{
+    ViewData["Title"] = "Transactions";
+
+    var totalIncome = Model.Where(t => t.TransactionType?.Name == "Income").Sum(t => t.Amount);
+    var totalExpense = Model.Where(t => t.TransactionType?.Name == "Expense").Sum(t => t.Amount);
+    var balance = totalIncome - totalExpense;
+}
+
+<h2><i class="bi bi-list-ul"></i> Transactions</h2>
+<hr />
+
+<!-- Summary Cards without colored background -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border">
+            <div class="card-body text-center">
+                <h5 class="card-title"><i class="bi bi-cash-stack"></i> Total Income</h5>
+                <p class="card-text fs-3">$@totalIncome</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border">
+            <div class="card-body text-center">
+                <h5 class="card-title"><i class="bi bi-credit-card-2-back"></i> Total Expenses</h5>
+                <p class="card-text fs-3">$@totalExpense</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border">
+            <div class="card-body text-center">
+                <h5 class="card-title"><i class="bi bi-piggy-bank"></i> Balance</h5>
+                <p class="card-text fs-3">$@balance</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Add Transaction
+    </a>
+</p>
+
+<table class="table table-striped table-hover shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th><i class="bi bi-hash"></i> ID</th>
+            <th><i class="bi bi-calendar-event"></i> Date</th>
+            <th><i class="bi bi-people"></i> Category</th>
+            <th><i class="bi bi-patch-check"></i> Type</th>
+            <th><i class="bi bi-currency-dollar"></i> Amount</th>
+            <th><i class="bi bi-gear"></i> Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Id</td>
+                <td>@t.Date.ToString("yyyy-MM-dd")</td>
+                <td>@t.Category?.Name</td>
+                <td>@t.TransactionType?.Name</td>
+                <td>$@t.Amount</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a asp-action="Details" asp-route-id="@t.Id" class="btn btn-sm btn-info text-white">
+                        <i class="bi bi-info-circle"></i> Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
